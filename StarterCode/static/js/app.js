@@ -7,13 +7,13 @@ var table = document.getElementById("ufo-table");
 
 // Add Data into table cells
 function insertData(objArray) {
-    
+
     // Clear table on function execution
     table.innerHTML = "";
 
     // Insert header into proper table cells
     var header = table.insertRow(0);
-        
+
     // Insert new cells at new <tr> element
     var head0 = header.insertCell(0);
     var head1 = header.insertCell(1);
@@ -33,8 +33,8 @@ function insertData(objArray) {
     head6.innerHTML = "Comments";
 
     // Loop through each object in filtered array
-    objArray.forEach(function(objVals) {
-        
+    objArray.forEach(function (objVals) {
+
         // Initialize array to hold the data object values
         var vals = Object.values(objVals);
 
@@ -67,23 +67,53 @@ function insertData(objArray) {
 function filterButton() {
     // Prevent the page from refreshing
     d3.event.preventDefault();
-  
-    // Select the input value from the form and assign to dataDate
-    var dataDate = d3.select("#datetime").node().value;
-    
-    // Changing value to string for datetime string comparison
-    var strDate = dataDate.toString(); 
-    console.log(strDate);
 
-    
+    // Select the input value from the form and assign to dataDate
+    var dataSearch = d3.select("#datetime").node().value;
+
+    // Changing value to lowercase string for data string comparison
+    var strData = dataSearch.toString().toLowerCase();
+    console.log(strData);
+
+
     // Filter original array of objects to include only objects that match dataDate
     var filterData;
-    filterData = tableData.filter(x => {return x.datetime == strDate;});
-    console.log(filterData);
-    
+    filterData = tableData.filter(x => { return x.datetime == strData; });
+
+    // If filtered array is empty or undefined, check next object category for entrires
+    if (filterData === undefined || filterData.length == 0) {
+        filterData = tableData.filter(x => { return x.city == strData; });
+    };
+
+    if (filterData === undefined || filterData.length == 0) {
+        filterData = tableData.filter(x => { return x.state == strData; });
+    };
+
+    if (filterData === undefined || filterData.length == 0) {
+        filterData = tableData.filter(x => { return x.country == strData; });
+    };
+
+    if (filterData === undefined || filterData.length == 0) {
+        filterData = tableData.filter(x => { return x.shape == strData; });
+    };
+
+    if (filterData === undefined || filterData.length == 0) {
+        filterData = tableData.filter(x => { return x.durationMinutes == strData; });
+    };
+
+    // Still needs to add method that converts all comments to lowercase before doing string comparison for filter
+    //if (filterData === undefined || filterData.length == 0) {
+    //    var temp = tableData.join('|').toLowerCase();
+    //    var lowerData = temp.split('|');
+    //    filterData = lowerData.filter(x => { return x.comment === strData; });
+    //};
+
+    console.log(lowerData);
+
+
     // Clear the input value
     d3.select("#datetime").node().value = "";
-  
+
     // Function to insert filtered data into proper table cells
     insertData(filterData);
 
