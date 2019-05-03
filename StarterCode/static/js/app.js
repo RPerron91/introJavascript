@@ -33,7 +33,7 @@ function insertData(objArray) {
     head6.innerHTML = "Comments";
 
     // Loop through each object in filtered array
-    objArray.forEach(function (objVals) {
+    objArray.forEach(function(objVals) {
 
         // Initialize array to hold the data object values
         var vals = Object.values(objVals);
@@ -68,7 +68,7 @@ function filterButton() {
     // Prevent the page from refreshing
     d3.event.preventDefault();
 
-    // Select the input value from the form and assign to dataDate
+    // Select the input value from the form and assign to dataSearch
     var dataSearch = d3.select("#datetime").node().value;
 
     // Changing value to lowercase string for data string comparison
@@ -78,37 +78,42 @@ function filterButton() {
 
     // Filter original array of objects to include only objects that match dataDate
     var filterData;
-    filterData = tableData.filter(x => { return x.datetime == strData; });
+    filterData = tableData.filter(x => { return x.datetime == strData;
+    });
 
-    // If filtered array is empty or undefined, check next object category for entrires
+    // Checks next category against filter until exact match found
     if (filterData === undefined || filterData.length == 0) {
-        filterData = tableData.filter(x => { return x.city == strData; });
+        filterData = tableData.filter(x => { return x.city == strData;
+        });
     };
 
     if (filterData === undefined || filterData.length == 0) {
-        filterData = tableData.filter(x => { return x.state == strData; });
+        filterData = tableData.filter(x => { return x.state == strData;
+        });
     };
 
     if (filterData === undefined || filterData.length == 0) {
-        filterData = tableData.filter(x => { return x.country == strData; });
+        filterData = tableData.filter(x => { return x.country == strData;
+        });
     };
 
     if (filterData === undefined || filterData.length == 0) {
-        filterData = tableData.filter(x => { return x.shape == strData; });
+        filterData = tableData.filter(x => { return x.shape == strData;
+        });
     };
 
     if (filterData === undefined || filterData.length == 0) {
-        filterData = tableData.filter(x => { return x.durationMinutes == strData; });
+        filterData = tableData.filter(x => { return x.durationMinutes == strData;
+        });
     };
 
-    // Still needs to add method that converts all comments to lowercase before doing string comparison for filter
-    //if (filterData === undefined || filterData.length == 0) {
-    //    var temp = tableData.join('|').toLowerCase();
-    //    var lowerData = temp.split('|');
-    //    filterData = lowerData.filter(x => { return x.comment === strData; });
-    //};
+    if (filterData === undefined || filterData.length == 0) {
+        filterData = tableData.filter(x  => {
+             return x.comments == dataSearch.toString();
+             });
+    };
 
-    console.log(lowerData);
+    console.log(filterData);
 
 
     // Clear the input value
